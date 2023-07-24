@@ -7,7 +7,7 @@ on:
 jobs:
   deploy-develop:
     name: Deploy to develop
-    if: github.event.ref == 'refs/heads/develop' && github.event_name == 'pull_request'
+    if: github.event.base_ref == 'develop' && github.event_name == 'pull_request'
     environment:
       name: Develop
     runs-on: ubuntu-latest
