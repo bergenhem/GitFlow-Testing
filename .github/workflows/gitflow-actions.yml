@@ -1,0 +1,42 @@
+name:  Deploy
+
+on:
+  pull_request:
+    branches: [ develop, staging, main ]
+
+jobs:
+  deploy-develop:
+    name: Deploy to develop
+    if: github.event.pull_request.base.ref == 'develop' && github.event_name == 'pull_request'
+    environment:
+      name: Develop
+    runs-on: ubuntu-latest
+    # Steps in job
+    steps:
+      # Get code from repo
+      - name: Fake Dev Deploy
+        run: echo "Deploying to Dev"
+        
+  deploy-staging:
+    name: Deploy to staing
+    if: github.event.pull_request.base.ref == 'staging' && github.event_name == 'pull_request'
+    environment:
+      name: Staging
+    runs-on: ubuntu-latest
+    # Steps in job
+    steps:
+      # Get code from repo
+      - name: Fake Staging Deploy
+        run: echo "Deploying to Staging"
+        
+  deploy-production:
+    name: Deploy to production
+    if: github.event.pull_request.base.ref == 'main' && github.event_name == 'pull_request'
+    environment:
+      name: Develop
+    runs-on: ubuntu-latest
+    # Steps in job
+    steps:
+      # Get code from repo
+      - name: Fake Production Deploy
+        run: echo "Deploying to Production"
