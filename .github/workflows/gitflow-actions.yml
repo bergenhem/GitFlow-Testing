@@ -15,11 +15,20 @@ jobs:
     # Steps in job
     steps:
       # Get code from repo
-      - name: Fake Dev Deploy
-        run: echo "Deploying to Dev"
+        - name: Fake Dev Deploy
+          run: echo "Deploying to Dev"
+        - name: Register at Sleuth
+          run: >
+            curl -X POST "https://app.sleuth.io/api/1/deployments/bergenhemcorp/gitflow-test/register_deploy" \
+              -H "Content-Type: application/json" \
+              -d "{
+              \"sha\": \"${{github.sha}}\",
+              \"environment\": \"Develop\",
+              \"api_key\": \"$SLEUTH_KEY\"
+              }"
         
   deploy-staging:
-    name: Deploy to staing
+    name: Deploy to staging
     if: github.event.pull_request.base.ref == 'staging' && github.event_name == 'pull_request'
     environment:
       name: Staging
