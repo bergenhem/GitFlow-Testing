@@ -15,11 +15,20 @@ jobs:
     # Steps in job
     steps:
       # Get code from repo
-      - name: Fake Dev Deploy
-        run: echo "Deploying to Dev"
+        - name: Fake Dev Deploy
+          run: echo "Deploying to Dev"
+        - name: Register Develop Deploy at Sleuth
+          run: >
+            curl -X POST "https://app.sleuth.io/api/1/deployments/bergenhemcorp/gitflow-testing-webhook/register_deploy" \
+              -H "Content-Type: application/json" \
+              -d "{
+              \"sha\": \"${{github.sha}}\",
+              \"environment\": \"Develop\",
+              \"api_key\": \"${{ secrets.SLEUTH_KEY }}\"
+              }"
         
   deploy-staging:
-    name: Deploy to staing
+    name: Deploy to staging
     if: github.event.pull_request.base.ref == 'staging' && github.event_name == 'pull_request'
     environment:
       name: Staging
@@ -29,7 +38,16 @@ jobs:
       # Get code from repo
       - name: Fake Staging Deploy
         run: echo "Deploying to Staging"
-        
+      - name: Register Staging Deploy at Sleuth
+        run: >
+            curl -X POST "https://app.sleuth.io/api/1/deployments/bergenhemcorp/gitflow-testing-webhook/register_deploy" \
+              -H "Content-Type: application/json" \
+              -d "{
+              \"sha\": \"${{github.sha}}\",
+              \"environment\": \"Staging\",
+              \"api_key\": \"${{ secrets.SLEUTH_KEY }}\"
+              }"
+
   deploy-production:
     name: Deploy to production
     if: github.event.pull_request.base.ref == 'main' && github.event_name == 'pull_request'
@@ -41,3 +59,12 @@ jobs:
       # Get code from repo
       - name: Fake Production Deploy
         run: echo "Deploying to Production"
+      - name: Register Production Deploy at Sleuth
+        run: >
+            curl -X POST "https://app.sleuth.io/api/1/deployments/bergenhemcorp/gitflow-testing-webhook/register_deploy" \
+              -H "Content-Type: application/json" \
+              -d "{
+              \"sha\": \"${{github.sha}}\",
+              \"environment\": \"Production\",
+              \"api_key\": \"${{ secrets.SLEUTH_KEY }}\"
+              }"
