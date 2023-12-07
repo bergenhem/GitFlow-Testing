@@ -24,7 +24,7 @@ jobs:
               -d "{
               \"sha\": \"${{github.sha}}\",
               \"environment\": \"Develop\",
-              \"api_key\": \"$SLEUTH_KEY\"
+              \"api_key\": \"${{ secrets.SLEUTH_KEY }}\"
               }"
         
   deploy-staging:
